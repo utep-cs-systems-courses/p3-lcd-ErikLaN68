@@ -74,9 +74,10 @@ screen_update_ball()
   draw_ball(drawPos[0], drawPos[1], COLOR_RED); /* draw */
 }
 
-short drawPosShip[2] = {10,10}, controlPosShip[2] = {((screenWidth >> 1) - 10), (screenHeight-5)};
-short colVelocityShip = 1, colLimitsShip[2] = {1, screenWidth-21};
+short drawPosShip[2] = {1,1}, controlPosShip[2] = {((screenWidth >> 1) - 10), (screenHeight-5)};
+short colVelocityShip = 1, colLimitsShip[2] = {1,screenWidth-21}, rowLimitShip[2] = {11,screenHeight-5};
 //draw_ship((screenWidth >> 1) - 10, screenHeight-5, COLOR_RED);
+
 void
 screen_update_ship()
 {
@@ -89,8 +90,7 @@ screen_update_ship()
   for (char axis = 0; axis < 2; axis ++)
     drawPosShip[axis] = controlPosShip[axis];
   draw_ship(drawPosShip[0], drawPosShip[1], COLOR_RED); /* draw */
-}
-  
+}  
 
 short redrawScreen = 1;
 u_int controlFontColor = COLOR_GREEN;
@@ -99,7 +99,7 @@ void wdt_c_handler()
 {
   static int secCount = 0;
   secCount ++;
-  if (secCount >= 25) {//10/sec
+  if (secCount >= 10) {//10/sec
     
     if (switches & SW1) {
       short oldCol = controlPosShip[0];
@@ -108,6 +108,24 @@ void wdt_c_handler()
 	return;
       else
 	controlPosShip[0] = newCol;
+    }
+    
+    if (switches & SW2) {
+      short oldRow = controlPosShip[1];
+      short newRow = oldRow - colVelocityShip;
+      if (newRow <= rowLimitShip[0])
+	return;
+      else
+	controlPosShip[1] = newRow;
+    }
+    
+    if (switches & SW3) {
+      short oldRow = controlPosShip[1];
+      short newRow = oldRow + colVelocityShip;
+      if (newRow >= rowLimitShip[1])
+	return;
+      else
+	controlPosShip[1] = newRow;
     }
     
     if (switches & SW4) {
@@ -208,7 +226,6 @@ update_shape()
 {
   screen_update_ball();
   screen_update_ship();
-  //screen_update_hourglass();
 }
    
 
