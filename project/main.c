@@ -50,15 +50,8 @@ switch_interrupt_handler()
 
 // axis zero for col, axis 1 for row
 
-short drawPos[2] = {10,10}, controlPos[2] = {2, 10};
-short colVelocity = 5, colLimits[2] = {1, screenWidth-10};
-
-void
-draw_ball(int col, int row, unsigned short color)
-{
-  fillRectangle(col-1, row-1, 10, 10, color);
-}
-
+short drawPos[2] = {10,10}, controlPos[2] = {1, 40};
+short colVelocity = 1, colLimits[2] = {0, screenWidth-10};
 
 void
 screen_update_ball()
@@ -68,10 +61,44 @@ screen_update_ball()
       goto redraw;
   return;			/* nothing to do */
  redraw:
-  draw_ball(drawPos[0], drawPos[1], COLOR_BLACK); /* erase */
+  draw_shape_1(drawPos[0], drawPos[1], COLOR_BLACK); /* erase */
   for (char axis = 0; axis < 2; axis ++) 
     drawPos[axis] = controlPos[axis];
-  draw_ball(drawPos[0], drawPos[1], COLOR_RED); /* draw */
+  draw_shape_1(drawPos[0], drawPos[1], COLOR_BLUE); /* draw */
+}
+
+short drawPosBall[2] = {10,10}, controlPosBall[2] = {screenWidth-10, 50};
+short colVelocityBall = 1, colLimitsBall[2] = {0, screenWidth-10};
+
+void
+screen_update_ball_2()
+{
+  for (char axis = 0; axis < 2; axis ++) 
+    if (drawPosBall[axis] != controlPosBall[axis]) /* position changed? */
+      goto redraw;
+  return;			/* nothing to do */
+ redraw:
+  draw_shape_1(drawPosBall[0], drawPosBall[1], COLOR_BLACK); /* erase */
+  for (char axis = 0; axis < 2; axis ++) 
+    drawPosBall[axis] = controlPosBall[axis];
+  draw_shape_1(drawPosBall[0], drawPosBall[1], COLOR_WHITE); /* draw */
+}
+
+short drawPos2[2] = {10,10}, controlPos2[2] = {1, 110};
+short colVelocity2 = 2, colLimits2[2] = {0, screenWidth-50};
+
+void
+screen_update_shape2()
+{
+  for (char axis = 0; axis < 2; axis ++) 
+    if (drawPos2[axis] != controlPos2[axis]) /* position changed? */
+      goto redraw;
+  return;			/* nothing to do */
+ redraw:
+  draw_shape_2(drawPos2[0], drawPos2[1], COLOR_BLACK); /* erase */
+  for (char axis = 0; axis < 2; axis ++) 
+    drawPos2[axis] = controlPos2[axis];
+  draw_shape_2(drawPos2[0], drawPos2[1], COLOR_PURPLE); /* draw */
 }
 
 short drawPosShip[2] = {1,1}, controlPosShip[2] = {((screenWidth >> 1) - 10), (screenHeight-5)};
@@ -134,7 +161,7 @@ void wdt_c_handler()
     }
   static int secCount = 0;
   secCount ++;
-  if (secCount >= 15) {//10/sec
+  if (secCount >= 5) {//10/sec
     {				//move ball
       short oldColBall = controlPos[0];
       short newColBall = oldColBall + colVelocity;
@@ -142,6 +169,20 @@ void wdt_c_handler()
 	colVelocity = -colVelocity;
       else
 	controlPos[0] = newColBall;
+
+      short oldColBall2 = controlPosBall[0];
+      short newColBall2 = oldColBall2 + colVelocityBall;
+      if (newColBall2 <= colLimitsBall[0] || newColBall2 >= colLimitsBall[1])
+	colVelocityBall = -colVelocityBall;
+      else
+	controlPosBall[0] = newColBall2;
+
+      short oldCol2 = controlPos2[0];
+      short newCol2 = oldCol2 + colVelocity2;
+      if (newCol2 <= colLimits2[0] || newCol2 >= colLimits2[1])
+	colVelocity2 = -colVelocity2;
+      else
+	controlPos2[0] = newCol2;
       secCount = 0;
     }
 
@@ -224,7 +265,9 @@ void
 update_shape()
 {
   screen_update_ball();
+  screen_update_ball_2();
   screen_update_ship();
+  screen_update_shape2();
 }
    
 
