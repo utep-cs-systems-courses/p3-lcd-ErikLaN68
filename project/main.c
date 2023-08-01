@@ -85,7 +85,7 @@ screen_update_ball_2()
 }
 
 short drawPos2[2] = {10,10}, controlPos2[2] = {1, 110};
-short colVelocity2 = 2, colLimits2[2] = {0, screenWidth-50};
+short colVelocity2 = 2, colLimits2[2] = {0, screenWidth-30};
 
 void
 screen_update_shape2()

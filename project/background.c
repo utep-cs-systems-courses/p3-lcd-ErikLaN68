@@ -10,7 +10,7 @@ draw_shape_1(int col, int row, unsigned short color)
 void
 draw_shape_2(int col, int row, unsigned short color)
 {
-  fillRectangle(col, row, 50, 10, color);
+  fillRectangle(col, row, 30, 10, color);
 }
 
 void
