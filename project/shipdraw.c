@@ -2,7 +2,7 @@
 #include "lcddraw.h"
 
 void
-draw_ship(int controlCol, int controlRow, short color)
+draw_ship(int controlCol, int controlRow, unsigned short color)
 {
   //fixed car size
   char size = 21;

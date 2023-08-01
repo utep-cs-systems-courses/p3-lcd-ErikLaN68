@@ -51,12 +51,12 @@ switch_interrupt_handler()
 // axis zero for col, axis 1 for row
 
 short drawPos[2] = {10,10}, controlPos[2] = {2, 10};
-short colVelocity = 2, colLimits[2] = {1, screenWidth};
+short colVelocity = 5, colLimits[2] = {1, screenWidth-10};
 
 void
 draw_ball(int col, int row, unsigned short color)
 {
-  fillRectangle(col-1, row-1, 5, 5, color);
+  fillRectangle(col-1, row-1, 10, 10, color);
 }
 
 
@@ -97,11 +97,7 @@ u_int controlFontColor = COLOR_GREEN;
 
 void wdt_c_handler()
 {
-  static int secCount = 0;
-  secCount ++;
-  if (secCount >= 10) {//10/sec
-    
-    if (switches & SW1) {
+  if (switches & SW1) {
       short oldCol = controlPosShip[0];
       short newCol = oldCol - colVelocityShip;
       if (newCol <= colLimitsShip[0])
@@ -136,17 +132,20 @@ void wdt_c_handler()
       else
 	controlPosShip[0] = newCol2;
     }
-    
-    /*{				//move ball
-      short oldCol = controlPosShip[0];
-      short newCol = oldCol + colVelocityShip;
-      if (newCol <= colLimitsShip[0] || newCol >= colLimitsShip[1])
-	colVelocityShip = -colVelocityShip;
+  static int secCount = 0;
+  secCount ++;
+  if (secCount >= 15) {//10/sec
+    {				//move ball
+      short oldColBall = controlPos[0];
+      short newColBall = oldColBall + colVelocity;
+      if (newColBall <= colLimits[0] || newColBall >= colLimits[1])
+	colVelocity = -colVelocity;
       else
-	controlPosShip[0] = newCol;
+	controlPos[0] = newColBall;
+      secCount = 0;
     }
 
-    {				//update hourglass
+    /*{				//update hourglass
       if (switches & SW3) green = (green + 1) % 64;
       if (switches & SW2) blue = (blue + 2) % 32;
       if (switches & SW1) red = (red - 3) % 32;
