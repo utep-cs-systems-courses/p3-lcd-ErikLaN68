@@ -23,3 +23,17 @@ draw_ship(int controlCol, int controlRow, unsigned short color)
     count++;
   }
 }
+
+void
+screen_update_ship(short controlPosShip[], short drawPosShip[])
+{
+  for (char axis = 0; axis < 2; axis ++) 
+    if (drawPosShip[axis] != controlPosShip[axis]) /* position changed? */
+      goto redraw;
+  return;			/* nothing to do */
+ redraw:
+  draw_ship(drawPosShip[0], drawPosShip[1], COLOR_BLACK); /* erase */
+  for (char axis = 0; axis < 2; axis ++)
+    drawPosShip[axis] = controlPosShip[axis];
+  draw_ship(drawPosShip[0], drawPosShip[1], COLOR_RED); /* draw */
+}

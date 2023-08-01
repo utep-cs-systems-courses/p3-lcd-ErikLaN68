@@ -48,76 +48,22 @@ switch_interrupt_handler()
 }
 
 
-// axis zero for col, axis 1 for row
+//axis zero for col, axis 1 for row
 
+//square 1 
 short drawPos[2] = {10,10}, controlPos[2] = {1, 40};
 short colVelocity = 1, colLimits[2] = {0, screenWidth-10};
-
-void
-screen_update_ball()
-{
-  for (char axis = 0; axis < 2; axis ++) 
-    if (drawPos[axis] != controlPos[axis]) /* position changed? */
-      goto redraw;
-  return;			/* nothing to do */
- redraw:
-  draw_shape_1(drawPos[0], drawPos[1], COLOR_BLACK); /* erase */
-  for (char axis = 0; axis < 2; axis ++) 
-    drawPos[axis] = controlPos[axis];
-  draw_shape_1(drawPos[0], drawPos[1], COLOR_BLUE); /* draw */
-}
-
-short drawPosBall[2] = {10,10}, controlPosBall[2] = {screenWidth-10, 50};
-short colVelocityBall = 1, colLimitsBall[2] = {0, screenWidth-10};
-
-void
-screen_update_ball_2()
-{
-  for (char axis = 0; axis < 2; axis ++) 
-    if (drawPosBall[axis] != controlPosBall[axis]) /* position changed? */
-      goto redraw;
-  return;			/* nothing to do */
- redraw:
-  draw_shape_1(drawPosBall[0], drawPosBall[1], COLOR_BLACK); /* erase */
-  for (char axis = 0; axis < 2; axis ++) 
-    drawPosBall[axis] = controlPosBall[axis];
-  draw_shape_1(drawPosBall[0], drawPosBall[1], COLOR_WHITE); /* draw */
-}
 
 short drawPos2[2] = {10,10}, controlPos2[2] = {1, 110};
 short colVelocity2 = 2, colLimits2[2] = {0, (screenWidth>>1)-30};
 
-void
-screen_update_shape2()
-{
-  for (char axis = 0; axis < 2; axis ++) 
-    if (drawPos2[axis] != controlPos2[axis]) /* position changed? */
-      goto redraw;
-  return;			/* nothing to do */
- redraw:
-  draw_shape_2(drawPos2[0], drawPos2[1], COLOR_BLACK); /* erase */
-  for (char axis = 0; axis < 2; axis ++) 
-    drawPos2[axis] = controlPos2[axis];
-  draw_shape_2(drawPos2[0], drawPos2[1], COLOR_PURPLE); /* draw */
-}
-
 short drawPosShip[2] = {1,1}, controlPosShip[2] = {((screenWidth >> 1) - 10), (screenHeight-5)};
 short colVelocityShip = 1, colLimitsShip[2] = {1,screenWidth-21}, rowLimitShip[2] = {11,screenHeight-5};
-//draw_ship((screenWidth >> 1) - 10, screenHeight-5, COLOR_RED);
 
-void
-screen_update_ship()
-{
-  for (char axis = 0; axis < 2; axis ++) 
-    if (drawPosShip[axis] != controlPosShip[axis]) /* position changed? */
-      goto redraw;
-  return;			/* nothing to do */
- redraw:
-  draw_ship(drawPosShip[0], drawPosShip[1], COLOR_BLACK); /* erase */
-  for (char axis = 0; axis < 2; axis ++)
-    drawPosShip[axis] = controlPosShip[axis];
-  draw_ship(drawPosShip[0], drawPosShip[1], COLOR_RED); /* draw */
-}  
+short drawPosBall[2] = {10,10}, controlPosBall[2] = {screenWidth-10, 50};
+short colVelocityBall = 1, colLimitsBall[2] = {0, screenWidth-10};
+
+//draw_ship((screenWidth >> 1) - 10, screenHeight-5, COLOR_RED);
 
 short redrawScreen = 1;
 u_int controlFontColor = COLOR_GREEN;
@@ -185,18 +131,6 @@ void wdt_c_handler()
 	controlPos2[0] = newCol2;
       secCount = 0;
     }
-
-    /*{				//update hourglass
-      if (switches & SW3) green = (green + 1) % 64;
-      if (switches & SW2) blue = (blue + 2) % 32;
-      if (switches & SW1) red = (red - 3) % 32;
-      if (step <= 30)
-	step ++;
-      else
-	step = 0;
-      secCount = 0;
-    }
-    if (switches & SW4) return;*/
     redrawScreen = 1;
   }
 }
@@ -264,10 +198,10 @@ screen_update_hourglass()
 void
 update_shape()
 {
-  screen_update_ball();
-  screen_update_ball_2();
-  screen_update_ship();
-  screen_update_shape2();
+  screen_update_ship(controlPosShip, drawPosShip);
+  screen_update_shape(controlPos, drawPos, COLOR_BLUE, 1);
+  screen_update_shape(controlPosBall, drawPosBall,COLOR_WHITE, 1);
+  screen_update_shape(controlPos2, drawPos2, COLOR_PURPLE, 2);
 }
    
 
