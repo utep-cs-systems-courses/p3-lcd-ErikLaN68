@@ -80,11 +80,12 @@ char endGame = 0;
 void
 switch_controller()
 {
- if (switches & SW1) {
+  //short_play(1200);
+  if (switches & SW1) {
     short oldCol = controlPosShip[0];
     short newCol = oldCol - colVelocityShip;
     //buzzer_set_period(1000);
-    short_play(1200);
+    short_play(400);
     if (newCol <= colLimitsShip[0])
       return;
     else
@@ -94,7 +95,8 @@ switch_controller()
   if (switches & SW2) {
     short oldRow = controlPosShip[1];
     short newRow = oldRow - colVelocityShip;
-    short_play(400);
+    buzzer_set_period(400);
+    __delay_cycles(500);
     if (newRow <= rowLimitShip[0]) {
       endGame = 1;
       return;
@@ -117,12 +119,13 @@ switch_controller()
   if (switches & SW4) {
     short oldCol2 = controlPosShip[0];
     short newCol2 = oldCol2 + colVelocityShip;
-    buzzer_set_period(1200);
-    short_play(1200);
+    //short_play(1200);
     if (newCol2 >= colLimitsShip[1])
       return;
     else
       controlPosShip[0] = newCol2;
+    buzzer_set_period(400);
+    __delay_cycles(500);
   } 
 }
 
@@ -182,7 +185,7 @@ wdt_c_handler()
 }
 
 //What does this do
-//void update_shape();
+void update_shapes();
 void
 update_shapes()
 {
@@ -233,10 +236,11 @@ main()
       startStop = startDisplay;
       clearScreen(COLOR_DARK_VIOLE);
       endTime();
-      int startStop = 250;
+      int startStop = 200;
       char sec[50] = "";
       itoa(secEnd-5,sec,10);
       char *secP = sec;
+      startDisplay = 0;
       while (startStop > 0) {
 	lazer(10);
 	drawString5x7(20,(screenHeight>>1)-50,"YOU WON!!",COLOR_WHITE,COLOR_DARK_VIOLE);
