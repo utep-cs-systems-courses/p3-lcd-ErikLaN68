@@ -43,7 +43,7 @@ play_song(short cycles)
 void
 short_play(short cycles)
 {
-  short count = 25;
+  short count = 100;
   //Runs while count greater than 100
   while (count > 0) {
     buzzer_set_period(cycles);
