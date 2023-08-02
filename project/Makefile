@@ -10,7 +10,7 @@ AS              = msp430-elf-gcc -mmcu=${CPU} -c
 all:game.elf
 
 #additional rules for files
-game.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o
+game.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o buzzer.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
 load: game.elf

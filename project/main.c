@@ -3,6 +3,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "shipdraw.h"
+#include "buzzer.h"
 
 // WARNING: LCD DISPLAY USES P1.0.  Do not touch!!! 
 
@@ -47,7 +48,6 @@ switch_interrupt_handler()
   switches = ~p2val & SWITCHES;
 }
 
-
 //axis zero for col, axis 1 for row
 
 //square 1 
@@ -73,6 +73,8 @@ void wdt_c_handler()
   if (switches & SW1) {
       short oldCol = controlPosShip[0];
       short newCol = oldCol - colVelocityShip;
+      //buzzer_set_period(1000);
+      buzzer_set_period(1200);
       if (newCol <= colLimitsShip[0])
 	return;
       else
@@ -82,6 +84,7 @@ void wdt_c_handler()
     if (switches & SW2) {
       short oldRow = controlPosShip[1];
       short newRow = oldRow - colVelocityShip;
+      buzzer_set_period(1500);
       if (newRow <= rowLimitShip[0])
 	return;
       else
@@ -91,6 +94,7 @@ void wdt_c_handler()
     if (switches & SW3) {
       short oldRow = controlPosShip[1];
       short newRow = oldRow + colVelocityShip;
+      buzzer_set_period(1500);
       if (newRow >= rowLimitShip[1])
 	return;
       else
@@ -100,6 +104,8 @@ void wdt_c_handler()
     if (switches & SW4) {
       short oldCol2 = controlPosShip[0];
       short newCol2 = oldCol2 + colVelocityShip;
+      buzzer_set_period(1200);
+      //buzzer_set_period(0);
       if (newCol2 >= colLimitsShip[1])
 	return;
       else
@@ -131,6 +137,7 @@ void wdt_c_handler()
 	controlPos2[0] = newCol2;
       secCount = 0;
     }
+    buzzer_set_period(0);
     redrawScreen = 1;
   }
 }
@@ -146,19 +153,16 @@ void main()
   configureClocks();
   lcd_init();
   switch_init();
+  buzzer_init();
   
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
   
   clearScreen(COLOR_BLACK);
-  //draw_ship(screenWidth >> 1, screenHeight >> 1, COLOR_RED);
   while (1) {   /* forever */
-    //draw_ship((screenWidth >> 1) - 10, screenHeight-5, COLOR_RED);
-    
     //shows the center of the screen
     /*for (int i = 0; i < 20; i++)  
       drawPixel(screenWidth >> 1, (screenHeight-5)-i, COLOR_WHITE);*/
-      
     if (redrawScreen) {
       redrawScreen = 0;
       update_shape();
