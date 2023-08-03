@@ -1,5 +1,6 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "buzzer.h"
 
 void
 draw_shape_1(int col, int row, unsigned short color)
@@ -14,9 +15,27 @@ draw_shape_2(int col, int row, unsigned short color)
 }
 
 void
-draw_shape_3(int col, int row, unsigned short color)
+start_page()
 {
-  
+  drawString8x12(5,20,"Triangle",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(40,35,"Dash",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString5x7(2,65,"Get to the other side",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString5x7(3,90,"Watch out for shapes!",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(30,120,"Have Fun",COLOR_WHITE,COLOR_DARK_VIOLE);
+}
+
+extern char *secP;
+
+void
+end_page()
+{
+  drawString8x12(10,20,"YOU WON!!",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(10,40,"It took ",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(65,40,secP,COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(85,40,"sec",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(10,55,"to get across",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString5x7(3,100,"Try going back across",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString5x7(3,115,"to win again!",COLOR_WHITE,COLOR_DARK_VIOLE);
 }
 
 void
@@ -28,9 +47,6 @@ shape_pick(short controlPos[], short drawPos[], unsigned short color, char contr
     break;
   case 2:
     draw_shape_2(drawPos[0], drawPos[1], color);
-    break;
-  case 3:
-    draw_shape_3(drawPos[0], drawPos[1], color);
     break;
   default:
     break;

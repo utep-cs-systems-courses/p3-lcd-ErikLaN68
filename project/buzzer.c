@@ -55,12 +55,12 @@ short_play(short cycles)
 void
 lazer(char mult)
 {
-  play_song(4545 * mult);
-  play_song(6079 * mult);
-  play_song(4545 * mult);
-  play_song(4545 * mult);
-  play_song(6079 * mult);
-  play_song(4545 * mult);
+  short_play(4545 * mult);
+  short_play(6079 * mult);
+  short_play(4545 * mult);
+  short_play(4545 * mult);
+  short_play(6079 * mult);
+  short_play(4545 * mult);
 }
 
 //Turns buzzer off
