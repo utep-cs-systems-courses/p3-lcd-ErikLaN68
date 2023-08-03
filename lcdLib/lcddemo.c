@@ -36,8 +36,8 @@ main()
 
   clearScreen(COLOR_BLACK);
 
-  //drawString5x7(20,20, "Erik LaNeave", COLOR_GREEN, COLOR_BLUE);
-
+  drawString8x12(40,20, "Erik LaNeave", COLOR_GREEN, COLOR_BLACK);
+  drawChar8x12(20,20,'E', COLOR_GREEN, COLOR_BLACK);
   //fillRectangle(30,30, 60, 60, COLOR_ORANGE);
   
   drawHourGlass(screenWidth >> 1, screenHeight >> 1, 15, COLOR_WHITE);

@@ -72,6 +72,23 @@ void drawChar5x7(u_char rcol, u_char rrow, char c,
   }
 }
 
+/*8x12 font - this function draws background pixels*/
+void
+drawChar8x12(u_char colC, u_char rowC, char c, u_int fgColorBGR, u_int bgColorBGR)
+{
+  u_char oc = c - 0x20;
+
+  for (char row = 0; row < 12; row++) {
+    unsigned short rowBits = font_8x12[oc][row];
+    for (char col = 0; col < 8; col++) {
+      /*This is shifting the bits to the left by adding zeros to the right.Compares bit by bit */
+      unsigned short colMask = 1 << (7-col);
+      u_int colorBGR = (rowBits & colMask) ? fgColorBGR : bgColorBGR;
+      drawPixel(colC+col,rowC+row,colorBGR);
+    }
+  }
+}
+
 /** Draw string at col,row
  *  Type:
  *  FONT_SM - small (5x8,) FONT_MD - medium (8x12,) FONT_LG - large (11x16)
@@ -91,6 +108,16 @@ void drawString5x7(u_char col, u_char row, char *string,
   while (*string) {
     drawChar5x7(cols, row, *string++, fgColorBGR, bgColorBGR);
     cols += 6;
+  }
+}
+
+void
+drawString8x12(u_char col, u_char row, char *string, u_int fgColorBGR, u_int bgColorBGR)
+{
+  u_char cols = col;
+  while (*string) {
+    drawChar8x12(cols, row, *string++, fgColorBGR, bgColorBGR);
+    cols += 7;
   }
 }
 
