@@ -7,13 +7,18 @@ LDFLAGS		= -L../lib -L/opt/ti/msp430_gcc/include/
 CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
-all:game.elf
+all:game-c.elf game-s.elf
 
 #additional rules for files
-game.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o buzzer.o switchcontrol.o shapecontrol.o collision.o switchstate.o machines.o
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
+game-c.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o buzzer.o switchcontrol.o shapecontrol.o collision.o switchstate.o machines.o
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd
+game-s.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o buzzer.o switchcontrol.o shapecontrol.o collision.o switchstate-s.o machines.o
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd
 
-load: game.elf
+load-c: game-c.elf
+	msp430loader.sh $^
+
+load-s: game-s.elf
 	msp430loader.sh $^
 
 clean:
