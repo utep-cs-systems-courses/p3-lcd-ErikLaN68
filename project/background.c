@@ -39,6 +39,18 @@ end_page()
 }
 
 void
+lost_page()
+{
+  drawString8x12(10,20,"You Lost!",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(10,40,"It took ",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(65,40,secP,COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(85,40,"sec",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString8x12(10,55,"to lose",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString5x7(3,100,"Try going back across",COLOR_WHITE,COLOR_DARK_VIOLE);
+  drawString5x7(3,115,"to win!",COLOR_WHITE,COLOR_DARK_VIOLE);
+}
+
+void
 shape_pick(short controlPos[], short drawPos[], unsigned short color, char control)
 {
   switch (control) {

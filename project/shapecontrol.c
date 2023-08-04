@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "lcdutils.h"
 #include "background.h"
+#include "collision.h"
 
 //square 1 
 extern short drawPos[2], controlPos[2], colVelocity, colLimits[2];
@@ -21,6 +22,7 @@ update_shapes()
   screen_update_shape(controlPosBall, drawPosBall,COLOR_WHITE, 1);
   screen_update_shape(controlPos2, drawPos2, COLOR_PURPLE, 2);
   screen_update_shape(controlPos3, drawPos3, COLOR_PURPLE, 2);
+  
 }
 
 void

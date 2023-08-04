@@ -3,17 +3,17 @@
 #include "switchcontrol.h"
 #include "shipdraw.h"
 #include "buzzer.h"
+#include "collision.h"
 
 extern char endGame;
 extern int switches;
 extern short drawPosShip[], controlPosShip[], colLimitsShip[], rowLimitsShip[], velocityShip;
 
-//int switches,short drawPosShip[], short controlPosShip[], short colLimitsShip[], short rowLimitsShip[], short velocityShip
-
 void
 update_ship()
 {
   screen_update_ship(controlPosShip, drawPosShip);
+  //ship_check_shapes();
 }
 
 void

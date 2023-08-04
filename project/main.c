@@ -9,6 +9,7 @@
 #include "background.h"
 #include "switchcontrol.h"
 #include "shapecontrol.h"
+#include "collision.h"
 
 // WARNING: LCD DISPLAY USES P1.0.  Do not touch!!! 
 
@@ -47,6 +48,7 @@ short velocityShip = 1, colLimitsShip[2] = {1,screenWidth-21}, rowLimitsShip[2] 
 
 short redrawScreen = 1;
 char endGame = 0;
+char hitShape = 0;
 
 static char 
 switch_update_interrupt_sense()
@@ -135,8 +137,9 @@ main()
       redrawScreen = 0;
       update_ship();
       update_shapes();
+      ship_check_shapes();
     }
-    if (endGame) {
+    if (endGame || hitShape) {
       clearScreen(COLOR_DARK_VIOLE);
       endTime();
       char startStop = 15;
@@ -145,11 +148,15 @@ main()
       itoa(secEnd-5,sec,10);
       secP = sec;
       while (startStop > 0) {
-	end_page();
+	if(endGame)
+	  end_page();
+	else
+	  lost_page();
 	startStop--;
       }
       clearScreen(COLOR_BLACK);
       rest_ship();
+      hitShape = 0;
       endGame = 0;
     }
     P1OUT &= ~LED;	/* led off */
