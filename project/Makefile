@@ -1,4 +1,5 @@
 # makfile configuration
+COMMON_OBJECTS 		= main.o wdt_handler.o shipdraw.o background.o buzzer.o switchcontrol.o shapecontrol.o collision.o machines.o
 CPU             	= msp430g2553
 CFLAGS          	= -mmcu=${CPU} -Os -I../h
 LDFLAGS		= -L../lib -L/opt/ti/msp430_gcc/include/ 
@@ -10,9 +11,9 @@ AS              = msp430-elf-gcc -mmcu=${CPU} -c
 all:game-c.elf game-s.elf
 
 #additional rules for files
-game-c.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o buzzer.o switchcontrol.o shapecontrol.o collision.o switchstate.o machines.o
+game-c.elf: ${COMMON_OBJECTS} switchstate.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd
-game-s.elf: ${COMMON_OBJECTS} main.o wdt_handler.o shipdraw.o background.o buzzer.o switchcontrol.o shapecontrol.o collision.o switchstate-s.o machines.o
+game-s.elf: ${COMMON_OBJECTS} switchstate-s.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd
 
 load-c: game-c.elf
@@ -23,3 +24,7 @@ load-s: game-s.elf
 
 clean:
 	rm -f *.o *.elf
+
+switchstate.o : switchstate.c
+
+switchstate-s.o: switchstate-s.s

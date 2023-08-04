@@ -2,6 +2,7 @@
 	.p2align 1,0
 	
 	.data
+	.global state_switch
 	.align 2
 jt:				;jump table
 	.word default
@@ -34,5 +35,9 @@ case3:
 	jmp return
 
 default:
+	jmp return
+
+return:
+	mov #0,r12
 	pop r0
 	
