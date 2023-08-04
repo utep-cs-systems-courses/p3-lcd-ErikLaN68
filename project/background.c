@@ -51,7 +51,7 @@ lost_page()
 }
 
 void
-shape_pick(short controlPos[], short drawPos[], unsigned short color, char control)
+shape_pick(short drawPos[], unsigned short color, char control)
 {
   switch (control) {
   case 1:
@@ -73,8 +73,8 @@ screen_update_shape(short controlPos[], short drawPos[], unsigned short color, c
       goto redraw;
   return;			/* nothing to do */
  redraw:
-  shape_pick(controlPos, drawPos, COLOR_BLACK, control); /* erase */
+  shape_pick(drawPos, COLOR_BLACK, control); /* erase */
   for (char axis = 0; axis < 2; axis ++) 
     drawPos[axis] = controlPos[axis];
-  shape_pick(controlPos, drawPos, color, control); /* draw */
+  shape_pick(drawPos, color, control); /* draw */
 }

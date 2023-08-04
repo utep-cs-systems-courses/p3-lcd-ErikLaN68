@@ -26,14 +26,10 @@ void
 square_1_check()
 {
   for (short i = 0; i < 10;i++) {
-    if ((controlPos[0]+i) == (controlPosShip[0]+i)) {
+    if ((drawPos[0]+i) == (drawPosShip[0]+i))
       hitShape = 1;
-    }
-  }
-  for (short i = 0; i < 10;i++) {
-    if ((controlPos[1]+i) == (controlPosShip[1]+i)) {
+    if ((drawPos[1]+i) == (drawPosShip[1]+i))
       hitShape = 1;
-    }
   }
 }
 
@@ -41,27 +37,23 @@ void
 square_2_check()
 {
   for (short i = 0; i < 10;i++) {
-    if ((controlPosBall[0]+i) == (controlPosShip[0]+i)) {
+    if ((drawPosBall[0]+i) == (drawPosShip[0]+i))
       hitShape = 1;
-    }
-  }
-  for (short i = 0; i < 10;i++) {
-    if ((controlPosBall[1]+i) == (controlPosShip[1]+i)) {
+    if ((drawPosBall[1]+i) == (drawPosShip[1]+i))
       hitShape = 1;
-    }
   }
 }
 
 void
 rec_1_check()
 {
-  for (short i = 0; i < 25;i++) {
-    if ((controlPos2[0]+i) == (controlPosShip[0]+i)) {
+  for (short i = 0; i < 32;i++) {
+    if ((drawPos2[0]+i) == (drawPosShip[0]+i)) {
       hitShape = 1;
     }
   }
   for (short i = 0; i < 11;i++) {
-    if ((controlPos2[1]+i) == (controlPosShip[1]+i))
+    if ((drawPos[1]+i) == (drawPosShip[1]+i))
       hitShape = 1;
   }
 }
@@ -69,13 +61,13 @@ rec_1_check()
 void
 rec_2_check()
 {
-  for (short i = 0; i < 25;i++) {
-    if ((controlPos3[0]+i) == (controlPosShip[0]+i)) {
+  for (short i = 0; i < 32;i++) {
+    if ((drawPos3[0]+i) == (drawPosShip[0]+i)) {
       hitShape = 1;
     }
   }
   for (short i = 0; i < 11;i++) {
-    if ((controlPos3[1]+i) == (controlPosShip[1]+i)) {
+    if ((drawPos3[1]+i) == (drawPosShip[1]+i)) {
       hitShape = 1;
     }
   }
