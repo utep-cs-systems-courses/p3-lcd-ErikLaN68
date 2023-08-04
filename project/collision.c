@@ -55,12 +55,12 @@ square_2_check()
 void
 rec_1_check()
 {
-  for (short i = 0; i < 30;i++) {
+  for (short i = 0; i < 25;i++) {
     if ((controlPos2[0]+i) == (controlPosShip[0]+i)) {
       hitShape = 1;
     }
   }
-  for (short i = 0; i < 10;i++) {
+  for (short i = 0; i < 11;i++) {
     if ((controlPos2[1]+i) == (controlPosShip[1]+i))
       hitShape = 1;
   }
@@ -69,12 +69,12 @@ rec_1_check()
 void
 rec_2_check()
 {
-  for (short i = 0; i < 60;i++) {
+  for (short i = 0; i < 25;i++) {
     if ((controlPos3[0]+i) == (controlPosShip[0]+i)) {
       hitShape = 1;
     }
   }
-  for (short i = 0; i < 20;i++) {
+  for (short i = 0; i < 11;i++) {
     if ((controlPos3[1]+i) == (controlPosShip[1]+i)) {
       hitShape = 1;
     }
@@ -90,7 +90,7 @@ ship_check_shapes()
     square_2_check();
   }
   //Rectangle check
-  if ((controlPosShip[1] > 90) && (controlPosShip[1] < 130)) {
+  if ((controlPosShip[1] > 90) && (controlPosShip[1] < 140)) {
     rec_1_check();
     rec_2_check();
   }
