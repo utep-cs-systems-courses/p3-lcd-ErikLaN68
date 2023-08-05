@@ -4,7 +4,7 @@
 #project directory.
 * Second: Run make to compile all project files.
 * Third: Use the command make load-c with the MSP430 plugged in to start the
-#game.
+#game using all c files or use load-s to use the one assembly file.
 
 ## How to Play
 * The object of the game is to get to the other side without hitting one of
