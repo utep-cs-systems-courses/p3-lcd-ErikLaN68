@@ -1,5 +1,6 @@
 #include "machines.h"
 
+//takes the state and uses switch to goto state
 void
 state_switch(char state)
 {

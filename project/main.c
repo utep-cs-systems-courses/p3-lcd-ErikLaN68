@@ -1,17 +1,14 @@
 #include <msp430.h>
 #include <libTimer.h>
-#include <string.h>
 #include <stdlib.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
-#include "shipdraw.h"
 #include "buzzer.h"
 #include "background.h"
 #include "switchcontrol.h"
 #include "shapecontrol.h"
 #include "collision.h"
 #include "switchstate.h"
-//#include "switchstate-s.s"
 
 // WARNING: LCD DISPLAY USES P1.0.  Do not touch!!! 
 
@@ -41,6 +38,7 @@ short colVelocity3 = 2, colLimits3[2] = {(screenWidth>>1)-1, screenWidth-29};
 short drawPosShip[2] = {1,1}, controlPosShip[2] = {((screenWidth >> 1) - 10), (screenHeight-5)};
 short velocityShip = 1, colLimitsShip[2] = {1,screenWidth-21}, rowLimitsShip[2] = {11,screenHeight-5};
 
+//boolean variables for state control
 short redrawScreen = 1;
 char endGame = 0;
 char hitShape = 0;
@@ -74,80 +72,93 @@ switch_interrupt_handler()
   switches = ~p2val & SWITCHES;
 }
 
+//startDisplay used to control how long the start screen is shown for and how many secs have passed till game end
 int startDisplay = 0;
+//boolean and state control variable
 char showStart = 1;
 char state = 1;
 
 void
 wdt_c_handler()
 {
+  //call to switch statement
   switch_controller();
-  
+ 
   static int secCount = 0;
+  //Count times for different operation
   secCount ++;
   startDisplay++;
-  if (startDisplay > 960) {
+  //about 4 secs
+  if (startDisplay > 900) {
     showStart = 0;
   }
+  //updates shapes once secCount > 5
   if (secCount >= 5) {  
     shape_controller();
     secCount = 0;
   }
-  
+
+  //turns buzzer off and redraws the screen
   buzzer_set_period(0);
   redrawScreen = 1;
 }
 
+//Used to find how much time is passed
 int secEnd = 0;
 char *secP;
 
+//takes startDisplay and divids by 250 for num of sec
+//resets the startDisplay variable
 void
 endTime()
 {
-  secEnd = startDisplay/240;
+  secEnd = startDisplay/250;
   startDisplay = 0;
 }
 
 void
 main()
 {
-P1DIR |= LED;		/**< Green led on when CPU on */
-P1OUT |= LED;
-configureClocks();
+  P1DIR |= LED;		/**< Green led on when CPU on */
+  P1OUT |= LED;
+  configureClocks();
   lcd_init();
   switch_init();
   buzzer_init();
   
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
-
-state_switch(state);
-
-  clearScreen(COLOR_BLACK);
-while (1) {
+  //for state control
+  state_switch(state);
+  
+  while (1) {
     if (redrawScreen) {
       redrawScreen = 0;
       update_ship();
       update_shapes();
       ship_check_shapes();
     }
+    //Hit check and end game check
     if (endGame || hitShape) {
+      //check state
       if(endGame)
 	state = 2;
       else
 	state = 3;
-      clearScreen(COLOR_DARK_VIOLE);
+      //finds time
       endTime();
       //has to be here
       char sec[50] = "";
-      itoa(secEnd-5,sec,10);
+      //start screen and endscreen are up for around 4sec each
+      itoa(secEnd-4,sec,10);
       secP = sec;
+      //call to state_switch
       state_switch(state);
-}
+    }
     P1OUT &= ~LED;	/* led off */
     or_sr(0x10);	/**< CPU OFF */
     P1OUT |= LED;	/* led on */
-}
+ }
 }
  
 void

@@ -5,17 +5,19 @@
 #include "buzzer.h"
 #include "collision.h"
 
+//All values needed for switches
 extern char endGame;
 extern int switches;
 extern short drawPosShip[], controlPosShip[], colLimitsShip[], rowLimitsShip[], velocityShip;
 
+//updates the ship
 void
 update_ship()
 {
   screen_update_ship(controlPosShip, drawPosShip);
-  //ship_check_shapes();
 }
 
+//resets the ship
 void
 rest_ship()
 {
@@ -23,14 +25,13 @@ rest_ship()
   controlPosShip[1] = (screenHeight - 5);
 }
 
+//controls all the switches that move the ship around
 void
 switch_controller()
 {
-  //short_play(1200);
   if (switches & SW1) {
     short oldCol = controlPosShip[0];
     short newCol = oldCol - velocityShip;
-    //buzzer_set_period(1000);
     short_play(400);
     __delay_cycles(500);
     if (newCol <= colLimitsShip[0])
@@ -67,7 +68,6 @@ switch_controller()
   if (switches & SW4) {
     short oldCol2 = controlPosShip[0];
     short newCol2 = oldCol2 + velocityShip;
-    //short_play(1200);
     buzzer_set_period(400);
     __delay_cycles(500);
     if (newCol2 >= colLimitsShip[1])

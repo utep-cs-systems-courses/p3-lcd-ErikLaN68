@@ -5,16 +5,14 @@
 
 //square 1 
 extern short drawPos[2], controlPos[2], colVelocity, colLimits[2];
-
 //square 2
 extern short drawPosBall[2], controlPosBall[2], colVelocityBall, colLimitsBall[2];
-
 //rectangle 1
 extern short drawPos2[2], controlPos2[2], colVelocity2, colLimits2[2];
-
 //rectangle 2
 extern short drawPos3[2], controlPos3[2], colVelocity3, colLimits3[2];
 
+//checks for updates in the shape positions
 void
 update_shapes()
 {
@@ -25,6 +23,7 @@ update_shapes()
   
 }
 
+//checks all shapes and if the limits have been hit
 void
 shape_controller()
 {

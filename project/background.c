@@ -2,18 +2,21 @@
 #include "lcddraw.h"
 #include "buzzer.h"
 
+//draws the squares
 void
 draw_shape_1(int col, int row, unsigned short color)
 {
   fillRectangle(col, row, 10, 10, color);
 }
 
+//draws the rectangles
 void
 draw_shape_2(int col, int row, unsigned short color)
 {
   fillRectangle(col, row, 30, 10, color);
 }
 
+//text spots for start page
 void
 start_page()
 {
@@ -24,7 +27,9 @@ start_page()
   drawString8x12(30,120,"Have Fun",COLOR_WHITE,COLOR_DARK_VIOLE);
 }
 
+//pointer that has the number of seconds
 extern char *secP;
+//text for end page
 
 void
 end_page()
@@ -38,6 +43,7 @@ end_page()
   drawString5x7(3,115,"to win again!",COLOR_WHITE,COLOR_DARK_VIOLE);
 }
 
+//lost page uses the same sec pointer
 void
 lost_page()
 {
@@ -50,6 +56,7 @@ lost_page()
   drawString5x7(3,115,"to win!",COLOR_WHITE,COLOR_DARK_VIOLE);
 }
 
+//used to know which shape to draw in the screen update method
 void
 shape_pick(short drawPos[], unsigned short color, char control)
 {
@@ -65,6 +72,7 @@ shape_pick(short drawPos[], unsigned short color, char control)
   }
 }
 
+//updates the rectangles and squares
 void
 screen_update_shape(short controlPos[], short drawPos[], unsigned short color, char control)
 {

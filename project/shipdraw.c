@@ -1,10 +1,11 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
+//draws the ship at col and row
 void
 draw_ship(int controlCol, int controlRow, unsigned short color)
 {
-  //fixed car size
+  //fixed ship size
   char size = 21;
   //Runs the for loop the correct amount of times
   char stop = (size/2) + 1;
@@ -24,6 +25,7 @@ draw_ship(int controlCol, int controlRow, unsigned short color)
   }
 }
 
+//redraws the ship if needed
 void
 screen_update_ship(short controlPosShip[], short drawPosShip[])
 {
